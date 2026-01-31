@@ -1344,27 +1344,36 @@ export default function CrazyHorseChatbot() {
 
   // ===== MAIN CHAT INTERFACE =====
   return (
-    <div className="min-h-screen bg-neutral-950 flex flex-col">
+    <div className="min-h-screen saloon-bg flex flex-col relative overflow-hidden">
       <Head>
         <title>CRAZY HORSE SALOON</title>
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
       </Head>
+
+      {/* Decorative Elements */}
+      {/* Left Lantern */}
+      <div className="lantern-glow" style={{ top: '80px', left: '10px', width: '80px', height: '120px' }}></div>
+      {/* Right Lantern */}
+      <div className="lantern-glow" style={{ top: '80px', right: '10px', width: '80px', height: '120px' }}></div>
+      {/* Fireplace Glow */}
+      <div className="fireplace-glow"></div>
+
       {/* Header */}
-      <header className="bg-neutral-950 border-b border-neutral-900 p-4 flex items-center justify-between sticky top-0 z-50">
+      <header className="relative z-50 p-4 flex items-center justify-between" style={{ background: 'linear-gradient(180deg, rgba(45,31,20,0.95) 0%, rgba(61,42,28,0.9) 100%)' }}>
         <div>
-          <span className="text-white text-sm tracking-[0.2em]">CRAZY HORSE</span>
+          <span className="text-amber-100 text-sm tracking-[0.2em] font-serif" style={{ textShadow: '1px 1px 2px rgba(0,0,0,0.5)' }}>CRAZY HORSE</span>
         </div>
         <div className="flex items-center gap-4">
           <button
             onClick={() => { setLang(null); resetAll(); }}
-            className="text-neutral-600 hover:text-neutral-400 text-xs transition-colors"
+            className="text-amber-200 hover:text-amber-100 text-xs transition-colors"
           >
             {languageFlags[lang]?.name}
           </button>
           {order.length > 0 && (
             <button
               onClick={() => setShowOrder(true)}
-              className="text-amber-600 hover:text-amber-500 text-sm flex items-center gap-2 transition-colors"
+              className="text-amber-500 hover:text-amber-400 text-sm flex items-center gap-2 transition-colors"
             >
               <span className="w-5 h-5 border border-current flex items-center justify-center text-xs">{order.length}</span>
             </button>
@@ -1396,174 +1405,248 @@ export default function CrazyHorseChatbot() {
           animation: avatarGlow 2s ease-in-out 0.5s 1;
         }
       `}</style>
-      <div ref={chatRef} className="flex-1 overflow-y-auto p-6 space-y-6 pb-24">
+      <div ref={chatRef} className="flex-1 overflow-y-auto p-4 space-y-4 pb-24 relative z-10">
         {messages.map((msg, idx) => (
-          <div key={idx} className={`flex ${msg.type === 'user' ? 'justify-end' : 'justify-start items-start gap-3'}`}>
-            {/* Master Annie Avatar */}
-            {msg.type === 'bot' && (
-              <div className="flex-shrink-0 bot-avatar-enter">
-                <div className="w-10 h-10 avatar-glow">
-                  <MasterAvatar size={40} />
+          <div key={idx}>
+            {/* Bot Message with Parchment */}
+            {msg.type === 'bot' && !msg.drink && (
+              <div className="parchment-bg wood-frame rounded-lg p-4 mx-2 bot-msg-enter relative">
+                <div className="flex items-start gap-3">
+                  {/* Master Annie Avatar */}
+                  <div className="flex-shrink-0 bot-avatar-enter">
+                    <div className="w-12 h-12 avatar-western-border rounded-full overflow-hidden">
+                      <MasterAvatar size={48} />
+                    </div>
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <p className="text-amber-800 text-xs tracking-wider mb-2 font-serif" style={{ color: '#5C4410' }}>{t.bartenderName}</p>
+                    <p className="parchment-text text-base leading-relaxed" style={{ color: '#3D2A1C' }}>{msg.content}</p>
+                  </div>
                 </div>
+
+                {/* First 2 options inside parchment */}
+                {msg.options && currentStep !== 'taste' && idx === messages.length - 1 && msg.options.length > 0 && (
+                  <div className="mt-4 space-y-2">
+                    {msg.options.slice(0, 2).map(opt => (
+                      <button
+                        key={opt.id}
+                        onClick={() => {
+                          if (currentStep === 'confirm') handleConfirm(opt.id);
+                          else if (currentStep === 'final') handleFinal(opt.id);
+                          else handleOptionSelect(opt.id, opt.label);
+                        }}
+                        className="w-full brass-frame-button text-amber-100 hover:text-white transition-all duration-200 text-left text-base font-medium relative"
+                        style={{ color: '#E8DCC8' }}
+                      >
+                        <span className="brass-stud top-left"></span>
+                        <span className="brass-stud top-right"></span>
+                        <span className="brass-stud bottom-left"></span>
+                        <span className="brass-stud bottom-right"></span>
+                        {opt.label}
+                      </button>
+                    ))}
+                  </div>
+                )}
               </div>
             )}
-            <div className={`max-w-[80%] ${
-              msg.type === 'user'
-                ? 'bg-amber-900/30 border border-amber-800/50 px-5 py-3'
-                : 'bg-neutral-900/50 border border-neutral-800 px-5 py-4 bot-msg-enter'
-            }`}>
-              {msg.type === 'bot' && (
-                <p className="text-neutral-500 text-xs tracking-wider mb-2">{t.bartenderName}</p>
-              )}
-              
-              <p className={`text-sm leading-relaxed ${msg.type === 'user' ? 'text-amber-200' : 'text-neutral-300'}`}>{msg.content}</p>
-              
-              {/* Drink Card */}
-              {msg.drink && (
-                <div className="mt-4 border border-neutral-700 bg-neutral-900/50 p-4">
+
+            {/* Bot Message with Drink Card */}
+            {msg.type === 'bot' && msg.drink && (
+              <div className="parchment-bg wood-frame rounded-lg p-4 mx-2 bot-msg-enter relative">
+                <div className="flex items-start gap-3 mb-4">
+                  <div className="flex-shrink-0 bot-avatar-enter">
+                    <div className="w-12 h-12 avatar-western-border rounded-full overflow-hidden">
+                      <MasterAvatar size={48} />
+                    </div>
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <p className="text-xs tracking-wider mb-2 font-serif" style={{ color: '#5C4410' }}>{t.bartenderName}</p>
+                    <p className="parchment-text text-base leading-relaxed" style={{ color: '#3D2A1C' }}>{msg.content}</p>
+                  </div>
+                </div>
+
+                {/* Drink Card on Parchment */}
+                <div className="p-4 rounded" style={{ background: 'rgba(93,68,16,0.1)', border: '2px solid #8B6914' }}>
                   <div className="flex justify-between items-start mb-3">
                     <div>
-                      <h4 className="text-white font-medium">{msg.drink.name}</h4>
+                      <h4 className="font-medium text-lg" style={{ color: '#3D2A1C' }}>{msg.drink.name}</h4>
                       {msg.drink.nameJa && (
-                        <p className="text-neutral-500 text-xs mt-1">{msg.drink.nameJa}</p>
+                        <p className="text-xs mt-1" style={{ color: '#5C4410' }}>{msg.drink.nameJa}</p>
                       )}
                     </div>
-                    <span className="text-amber-500">¥{msg.drink.price}</span>
+                    <span className="text-lg font-bold" style={{ color: '#8B6914' }}>¥{msg.drink.price}</span>
                   </div>
-                  
+
                   {msg.drink.subcat && (
-                    <p className="text-neutral-600 text-xs mb-3">{msg.drink.subcat}</p>
+                    <p className="text-xs mb-3" style={{ color: '#6B4E12' }}>{msg.drink.subcat}</p>
                   )}
-                  
-                  <p className="text-neutral-400 text-sm leading-relaxed mb-3">{msg.drink.profile?.[lang] || msg.drink.profile?.en}</p>
-                  
+
+                  <p className="text-sm leading-relaxed mb-3" style={{ color: '#4A3A0E' }}>{msg.drink.profile?.[lang] || msg.drink.profile?.en}</p>
+
                   {msg.drink.beginner && (
-                    <p className="text-amber-700 text-xs">{t.beginner}</p>
+                    <p className="text-xs mb-3" style={{ color: '#8B6914' }}>{t.beginner}</p>
                   )}
-                  
+
                   {/* Serving Options */}
                   {msg.showServing && currentStep === 'serving' && idx === messages.length - 1 && (
-                    <div className="mt-4 pt-4 border-t border-neutral-800">
-                      <p className="text-neutral-500 text-xs mb-3">{t.askServing}</p>
+                    <div className="mt-4 pt-4" style={{ borderTop: '1px solid #8B6914' }}>
+                      <p className="text-xs mb-3" style={{ color: '#5C4410' }}>{t.askServing}</p>
                       <div className="grid grid-cols-2 gap-2">
                         {getServingOptions(msg.drink.category).map(opt => (
                           <button
                             key={opt.id}
                             onClick={() => handleServingSelect(opt.id, opt.label)}
-                            className={`p-3 text-left transition-all text-sm border ${
-                              opt.forBeginner
-                                ? 'border-amber-800/50 hover:border-amber-600 text-amber-200'
-                                : 'border-neutral-800 hover:border-neutral-600 text-neutral-400'
-                            }`}
+                            className="brass-frame-button text-left text-sm font-medium relative"
+                            style={{ color: '#E8DCC8' }}
                           >
+                            <span className="brass-stud top-left"></span>
+                            <span className="brass-stud top-right"></span>
+                            <span className="brass-stud bottom-left"></span>
+                            <span className="brass-stud bottom-right"></span>
                             {opt.label}
                           </button>
                         ))}
                       </div>
                     </div>
                   )}
-                  
+
                   {/* Direct Add Button for Cocktails */}
                   {!msg.showServing && currentStep === 'confirm' && idx === messages.length - 1 && (
-                    <div className="mt-4 pt-4 border-t border-neutral-800 flex gap-2">
+                    <div className="mt-4 pt-4 flex gap-2" style={{ borderTop: '1px solid #8B6914' }}>
                       <button
                         onClick={() => handleConfirm('confirm')}
-                        className="flex-1 border border-amber-700 text-amber-500 hover:bg-amber-700 hover:text-white py-2 text-sm transition-all"
+                        className="flex-1 brass-frame-button text-sm font-medium relative"
+                        style={{ color: '#E8DCC8' }}
                       >
+                        <span className="brass-stud top-left"></span>
+                        <span className="brass-stud top-right"></span>
+                        <span className="brass-stud bottom-left"></span>
+                        <span className="brass-stud bottom-right"></span>
                         {t.addToOrder}
                       </button>
                       <button
                         onClick={() => handleConfirm('another')}
-                        className="px-4 border border-neutral-700 text-neutral-500 hover:border-neutral-500 py-2 text-sm transition-all"
+                        className="brass-frame-button text-sm font-medium relative"
+                        style={{ color: '#B8956A' }}
                       >
+                        <span className="brass-stud top-left"></span>
+                        <span className="brass-stud top-right"></span>
+                        <span className="brass-stud bottom-left"></span>
+                        <span className="brass-stud bottom-right"></span>
                         {t.tryAnother}
                       </button>
                     </div>
                   )}
                 </div>
-              )}
-              
-              {/* Option Buttons - Only show on last message */}
-              {msg.options && currentStep !== 'taste' && idx === messages.length - 1 && (
-                <div className="mt-4 space-y-2">
+              </div>
+            )}
+
+            {/* User Message */}
+            {msg.type === 'user' && (
+              <div className="flex justify-end mx-2">
+                <div className="brass-frame-button max-w-[80%] relative">
+                  <span className="brass-stud top-left"></span>
+                  <span className="brass-stud top-right"></span>
+                  <span className="brass-stud bottom-left"></span>
+                  <span className="brass-stud bottom-right"></span>
+                  <p className="text-amber-100 text-sm">{msg.content}</p>
+                </div>
+              </div>
+            )}
+
+            {/* Remaining Options outside parchment (on wood background) */}
+            {msg.type === 'bot' && msg.options && currentStep !== 'taste' && idx === messages.length - 1 && msg.options.length > 2 && (
+              <div className="mt-3 mx-2 space-y-2">
+                {msg.options.slice(2).map(opt => (
+                  <button
+                    key={opt.id}
+                    onClick={() => {
+                      if (currentStep === 'confirm') handleConfirm(opt.id);
+                      else if (currentStep === 'final') handleFinal(opt.id);
+                      else handleOptionSelect(opt.id, opt.label);
+                    }}
+                    className="w-full brass-frame-button text-amber-100 hover:text-white transition-all duration-200 text-left text-base font-medium relative"
+                    style={{ color: '#E8DCC8' }}
+                  >
+                    <span className="brass-stud top-left"></span>
+                    <span className="brass-stud top-right"></span>
+                    <span className="brass-stud bottom-left"></span>
+                    <span className="brass-stud bottom-right"></span>
+                    {opt.label}
+                  </button>
+                ))}
+              </div>
+            )}
+
+            {/* Taste Multi-Select on wood background */}
+            {msg.type === 'bot' && msg.options && currentStep === 'taste' && idx === messages.length - 1 && (
+              <div className="mt-3 mx-2">
+                <div className="grid grid-cols-2 gap-2 mb-3">
                   {msg.options.map(opt => (
                     <button
                       key={opt.id}
-                      onClick={() => {
-                        if (currentStep === 'confirm') {
-                          handleConfirm(opt.id);
-                        } else if (currentStep === 'final') {
-                          handleFinal(opt.id);
-                        } else {
-                          handleOptionSelect(opt.id, opt.label);
-                        }
-                      }}
-                      className="w-full border border-neutral-800 hover:border-amber-700 text-neutral-400 hover:text-amber-500 p-3 transition-all duration-200 text-left text-sm"
+                      onClick={() => handleOptionSelect(opt.id, opt.label)}
+                      className={`brass-frame-button text-left text-sm font-medium relative transition-all duration-200 ${
+                        selectedTastes.includes(opt.id)
+                          ? 'ring-2 ring-amber-400'
+                          : ''
+                      }`}
+                      style={{ color: '#E8DCC8' }}
                     >
+                      <span className="brass-stud top-left"></span>
+                      <span className="brass-stud top-right"></span>
+                      <span className="brass-stud bottom-left"></span>
+                      <span className="brass-stud bottom-right"></span>
                       {opt.label}
                     </button>
                   ))}
                 </div>
-              )}
-              
-              {/* Taste Multi-Select */}
-              {msg.options && currentStep === 'taste' && idx === messages.length - 1 && (
-                <div className="mt-4">
-                  <div className="grid grid-cols-2 gap-2 mb-4">
-                    {msg.options.map(opt => (
-                      <button
-                        key={opt.id}
-                        onClick={() => handleOptionSelect(opt.id, opt.label)}
-                        className={`border p-3 transition-all duration-200 text-left text-sm ${
-                          selectedTastes.includes(opt.id)
-                            ? 'border-amber-500 bg-amber-900/30 text-amber-400'
-                            : 'border-neutral-800 text-neutral-400 hover:border-neutral-600'
-                        }`}
-                      >
-                        {opt.label}
-                      </button>
-                    ))}
-                  </div>
-                  <button
-                    onClick={handleTasteConfirm}
-                    className="w-full border border-amber-700 text-amber-500 hover:bg-amber-700 hover:text-white p-3 transition-all duration-200 text-sm tracking-wider"
-                  >
-                    {selectedTastes.length > 0 
-                      ? (lang === 'ja' ? `${selectedTastes.length}つ選択で決定` 
-                        : lang === 'zh' ? `确认选择${selectedTastes.length}个`
-                        : lang === 'ko' ? `${selectedTastes.length}개 선택 확인`
-                        : lang === 'fr' ? `Confirmer (${selectedTastes.length})`
-                        : lang === 'es' ? `Confirmar (${selectedTastes.length})`
-                        : lang === 'it' ? `Conferma (${selectedTastes.length})`
-                        : `Confirm (${selectedTastes.length} selected)`)
-                      : (lang === 'ja' ? 'スキップ' 
-                        : lang === 'zh' ? '跳过'
-                        : lang === 'ko' ? '건너뛰기'
-                        : lang === 'fr' ? 'Passer'
-                        : lang === 'es' ? 'Omitir'
-                        : lang === 'it' ? 'Salta'
-                        : 'Skip')}
-                  </button>
-                </div>
-              )}
-            </div>
+                <button
+                  onClick={handleTasteConfirm}
+                  className="w-full brass-frame-button text-amber-100 hover:text-white transition-all duration-200 text-base font-medium relative"
+                  style={{ color: '#E8DCC8' }}
+                >
+                  <span className="brass-stud top-left"></span>
+                  <span className="brass-stud top-right"></span>
+                  <span className="brass-stud bottom-left"></span>
+                  <span className="brass-stud bottom-right"></span>
+                  {selectedTastes.length > 0
+                    ? (lang === 'ja' ? `${selectedTastes.length}つ選択で決定`
+                      : lang === 'zh' ? `确认选择${selectedTastes.length}个`
+                      : lang === 'ko' ? `${selectedTastes.length}개 선택 확인`
+                      : lang === 'fr' ? `Confirmer (${selectedTastes.length})`
+                      : lang === 'es' ? `Confirmar (${selectedTastes.length})`
+                      : lang === 'it' ? `Conferma (${selectedTastes.length})`
+                      : `Confirm (${selectedTastes.length} selected)`)
+                    : (lang === 'ja' ? 'スキップ'
+                      : lang === 'zh' ? '跳过'
+                      : lang === 'ko' ? '건너뛰기'
+                      : lang === 'fr' ? 'Passer'
+                      : lang === 'es' ? 'Omitir'
+                      : lang === 'it' ? 'Salta'
+                      : 'Skip')}
+                </button>
+              </div>
+            )}
           </div>
         ))}
-        
+
         {/* Typing Indicator */}
         {isTyping && (
-          <div className="flex justify-start items-start gap-3">
-            <div className="flex-shrink-0 bot-avatar-enter">
-              <div className="w-10 h-10 avatar-glow">
-                <MasterAvatar size={40} />
+          <div className="parchment-bg wood-frame rounded-lg p-4 mx-2">
+            <div className="flex items-start gap-3">
+              <div className="flex-shrink-0 bot-avatar-enter">
+                <div className="w-12 h-12 avatar-western-border rounded-full overflow-hidden">
+                  <MasterAvatar size={48} />
+                </div>
               </div>
-            </div>
-            <div className="bg-neutral-900/50 border border-neutral-800 px-5 py-4 bot-msg-enter">
-              <p className="text-neutral-500 text-xs tracking-wider mb-2">{t.bartenderName}</p>
-              <div className="flex gap-1">
-                <span className="w-1.5 h-1.5 bg-neutral-600 rounded-full animate-pulse"></span>
-                <span className="w-1.5 h-1.5 bg-neutral-600 rounded-full animate-pulse" style={{ animationDelay: '150ms' }}></span>
-                <span className="w-1.5 h-1.5 bg-neutral-600 rounded-full animate-pulse" style={{ animationDelay: '300ms' }}></span>
+              <div className="flex-1">
+                <p className="text-xs tracking-wider mb-2 font-serif" style={{ color: '#5C4410' }}>{t.bartenderName}</p>
+                <div className="flex gap-1.5">
+                  <span className="w-2 h-2 rounded-full animate-pulse" style={{ backgroundColor: '#8B6914' }}></span>
+                  <span className="w-2 h-2 rounded-full animate-pulse" style={{ backgroundColor: '#8B6914', animationDelay: '150ms' }}></span>
+                  <span className="w-2 h-2 rounded-full animate-pulse" style={{ backgroundColor: '#8B6914', animationDelay: '300ms' }}></span>
+                </div>
               </div>
             </div>
           </div>
