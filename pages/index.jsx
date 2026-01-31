@@ -1089,25 +1089,62 @@ export default function CrazyHorseChatbot() {
     spicy: 'スパイシー',
   };
 
-  // ===== WELCOME SCREEN - Language Select =====
+  // ===== WELCOME SCREEN - Language Select (Western Saloon Theme) =====
   if (currentStep === 'welcome' && !lang) {
     return (
-      <div className="min-h-screen bg-neutral-950 flex flex-col items-center justify-center p-6">
-        <div className="max-w-sm w-full">
-          <div className="text-center mb-16">
-            <div className="w-px h-12 bg-gradient-to-b from-transparent via-amber-600 to-transparent mx-auto mb-8"></div>
-            <h1 className="text-3xl font-light text-white tracking-[0.3em] mb-2">CRAZY HORSE</h1>
-            <p className="text-xs text-neutral-500 tracking-[0.5em]">SALOON</p>
+      <div className="min-h-screen saloon-bg flex flex-col items-center justify-center p-6 relative overflow-hidden">
+        {/* Lantern glows */}
+        <div className="lantern-glow" style={{ top: '5%', left: '5%' }}></div>
+        <div className="lantern-glow" style={{ top: '5%', right: '5%' }}></div>
+        <div className="lantern-glow" style={{ bottom: '30%', left: '8%' }}></div>
+        <div className="lantern-glow" style={{ bottom: '30%', right: '8%' }}></div>
+
+        {/* Fireplace glow */}
+        <div className="fireplace-glow"></div>
+
+        {/* Decorative horseshoes */}
+        <div className="absolute top-[15%] left-[8%] text-4xl horseshoe transform -rotate-12 opacity-60">∩</div>
+        <div className="absolute top-[12%] right-[10%] text-3xl horseshoe transform rotate-12 opacity-50">∩</div>
+
+        <div className="max-w-sm w-full relative z-10">
+          {/* Main Title */}
+          <div className="text-center mb-12">
+            <h1 className="wood-title text-4xl md:text-5xl leading-tight mb-1">CRAZY HORSE</h1>
+            <div className="flex items-center justify-center gap-3">
+              <span className="text-xl horseshoe transform rotate-90">∩</span>
+              <h2 className="wood-title text-2xl md:text-3xl">SALOON</h2>
+              <span className="text-xl horseshoe transform -rotate-90">∩</span>
+            </div>
           </div>
-          
+
+          {/* Language Selection */}
           <div className="space-y-3">
             {Object.entries(languageFlags).map(([code, { name }]) => (
               <button
                 key={code}
                 onClick={() => setLang(code)}
-                className="w-full py-4 px-6 text-left border border-neutral-800 hover:border-amber-700 bg-transparent hover:bg-neutral-900 transition-all duration-300 group"
+                className="w-full py-4 px-6 text-left transition-all duration-300 group"
+                style={{
+                  background: 'linear-gradient(180deg, rgba(92,68,16,0.8) 0%, rgba(74,58,14,0.9) 100%)',
+                  border: '2px solid #6B4E12',
+                  borderRadius: '8px',
+                  boxShadow: 'inset 0 1px 2px rgba(255,255,255,0.1), 0 2px 4px rgba(0,0,0,0.3)'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.background = 'linear-gradient(180deg, rgba(139,105,20,0.9) 0%, rgba(107,78,18,1) 100%)';
+                  e.currentTarget.style.borderColor = '#B8860B';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.background = 'linear-gradient(180deg, rgba(92,68,16,0.8) 0%, rgba(74,58,14,0.9) 100%)';
+                  e.currentTarget.style.borderColor = '#6B4E12';
+                }}
               >
-                <span className="text-neutral-400 group-hover:text-amber-500 text-sm tracking-wider transition-colors">{name}</span>
+                <span
+                  className="text-amber-200 group-hover:text-white text-sm tracking-wider transition-colors font-medium"
+                  style={{ textShadow: '1px 1px 2px rgba(0,0,0,0.5)' }}
+                >
+                  {name}
+                </span>
               </button>
             ))}
           </div>
@@ -1116,33 +1153,67 @@ export default function CrazyHorseChatbot() {
     );
   }
 
-  // ===== WELCOME SCREEN - Start =====
+  // ===== WELCOME SCREEN - Start (Western Saloon Theme) =====
   if (currentStep === 'welcome' && lang) {
     return (
-      <div className="min-h-screen bg-neutral-950 flex flex-col items-center justify-center p-6">
-        <div className="max-w-sm w-full text-center">
-          <div className="w-px h-16 bg-gradient-to-b from-transparent via-amber-600 to-transparent mx-auto mb-10"></div>
-          
-          <h1 className="text-3xl font-light text-white tracking-[0.3em] mb-2">CRAZY HORSE</h1>
-          <p className="text-xs text-neutral-500 tracking-[0.5em] mb-6">SALOON</p>
-          
-          <div className="w-16 h-px bg-neutral-800 mx-auto mb-6"></div>
-          
-          <p className="text-neutral-500 text-sm mb-12 tracking-wide">{t.tagline}</p>
-          
+      <div className="min-h-screen saloon-bg flex flex-col items-center justify-center p-6 relative overflow-hidden">
+        {/* Lantern glows */}
+        <div className="lantern-glow" style={{ top: '5%', left: '5%' }}></div>
+        <div className="lantern-glow" style={{ top: '5%', right: '5%' }}></div>
+        <div className="lantern-glow" style={{ bottom: '30%', left: '8%' }}></div>
+        <div className="lantern-glow" style={{ bottom: '30%', right: '8%' }}></div>
+
+        {/* Fireplace glow */}
+        <div className="fireplace-glow"></div>
+
+        {/* Decorative horseshoes */}
+        <div className="absolute top-[15%] left-[8%] text-4xl horseshoe transform -rotate-12 opacity-60">∩</div>
+        <div className="absolute top-[12%] right-[10%] text-3xl horseshoe transform rotate-12 opacity-50">∩</div>
+
+        <div className="max-w-md w-full text-center relative z-10">
+          {/* Main Title - 3D Carved Wood Style */}
+          <div className="mb-4">
+            <h1 className="wood-title text-5xl md:text-6xl leading-tight">CRAZY</h1>
+            <h1 className="wood-title text-5xl md:text-6xl leading-tight">HORSE</h1>
+          </div>
+
+          {/* Horseshoe decorations around SALOON */}
+          <div className="flex items-center justify-center gap-4 mb-8">
+            <span className="text-2xl horseshoe transform rotate-90">∩</span>
+            <h2 className="wood-title text-3xl md:text-4xl">SALOON</h2>
+            <span className="text-2xl horseshoe transform -rotate-90">∩</span>
+          </div>
+
+          {/* Leather Banner with Tagline */}
+          <div className="leather-banner mx-auto mb-12 max-w-xs">
+            <p className="text-amber-100 text-sm md:text-base tracking-wide font-medium"
+               style={{ textShadow: '1px 1px 2px rgba(0,0,0,0.5)' }}>
+              {t.tagline}
+            </p>
+          </div>
+
+          {/* Rope/Leather Framed Start Button */}
           <button
             onClick={startConversation}
-            className="w-full py-4 border border-amber-700 text-amber-500 hover:bg-amber-700 hover:text-white transition-all duration-300 text-sm tracking-[0.2em]"
+            className="rope-button text-amber-200 hover:text-white text-xl md:text-2xl tracking-[0.15em] transition-all duration-300 hover:scale-105 font-semibold"
+            style={{
+              fontFamily: 'Georgia, serif',
+              textShadow: '2px 2px 4px rgba(0,0,0,0.5)'
+            }}
           >
             {t.startChat}
           </button>
-          
-          <button
-            onClick={() => setLang(null)}
-            className="mt-8 text-neutral-600 hover:text-neutral-400 text-xs tracking-wider transition-colors"
-          >
-            {languageFlags[lang]?.name}
-          </button>
+
+          {/* Wooden Sign Language Indicator */}
+          <div className="mt-12">
+            <button
+              onClick={() => setLang(null)}
+              className="wood-sign text-amber-200 hover:text-white text-sm tracking-wider transition-colors inline-block"
+              style={{ textShadow: '1px 1px 2px rgba(0,0,0,0.5)' }}
+            >
+              {languageFlags[lang]?.name}
+            </button>
+          </div>
         </div>
       </div>
     );
