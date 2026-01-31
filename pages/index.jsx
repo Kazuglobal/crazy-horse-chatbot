@@ -1092,59 +1092,53 @@ export default function CrazyHorseChatbot() {
   // ===== WELCOME SCREEN - Language Select (Western Saloon Theme) =====
   if (currentStep === 'welcome' && !lang) {
     return (
-      <div className="min-h-screen saloon-bg flex flex-col items-center justify-center p-6 relative overflow-hidden">
-        {/* Lantern glows */}
-        <div className="lantern-glow" style={{ top: '5%', left: '5%' }}></div>
-        <div className="lantern-glow" style={{ top: '5%', right: '5%' }}></div>
-        <div className="lantern-glow" style={{ bottom: '30%', left: '8%' }}></div>
-        <div className="lantern-glow" style={{ bottom: '30%', right: '8%' }}></div>
+      <div className="min-h-screen bar-bg flex flex-col items-center justify-center p-6 relative overflow-hidden">
+        {/* Ambient light effects */}
+        <div className="ambient-glow ambient-glow-gold w-96 h-96" style={{ top: '-10%', left: '50%', transform: 'translateX(-50%)' }}></div>
+        <div className="ambient-glow ambient-glow-warm w-64 h-64" style={{ bottom: '10%', left: '10%' }}></div>
+        <div className="ambient-glow ambient-glow-warm w-64 h-64" style={{ bottom: '10%', right: '10%' }}></div>
 
-        {/* Fireplace glow */}
-        <div className="fireplace-glow"></div>
-
-        {/* Decorative horseshoes */}
-        <div className="absolute top-[15%] left-[8%] text-4xl horseshoe transform -rotate-12 opacity-60">∩</div>
-        <div className="absolute top-[12%] right-[10%] text-3xl horseshoe transform rotate-12 opacity-50">∩</div>
+        {/* Floating particles */}
+        {[...Array(6)].map((_, i) => (
+          <div
+            key={i}
+            className="particles"
+            style={{
+              left: `${15 + i * 15}%`,
+              bottom: '0',
+              animationDelay: `${i * 2.5}s`,
+            }}
+          ></div>
+        ))}
 
         <div className="max-w-sm w-full relative z-10">
-          {/* Main Title */}
-          <div className="text-center mb-12">
-            <h1 className="wood-title text-4xl md:text-5xl leading-tight mb-1">CRAZY HORSE</h1>
-            <div className="flex items-center justify-center gap-3">
-              <span className="text-xl horseshoe transform rotate-90">∩</span>
-              <h2 className="wood-title text-2xl md:text-3xl">SALOON</h2>
-              <span className="text-xl horseshoe transform -rotate-90">∩</span>
-            </div>
+          {/* Elegant Title */}
+          <div className="text-center mb-16">
+            {/* Decorative top line */}
+            <div className="bar-divider w-24 mx-auto mb-8"></div>
+
+            <h1 className="bar-title-main text-4xl md:text-5xl leading-tight mb-2">CRAZY HORSE</h1>
+            <p className="tagline mt-4 mb-6">SALOON</p>
+
+            {/* Decorative bottom line */}
+            <div className="bar-divider w-16 mx-auto mt-6"></div>
           </div>
 
           {/* Language Selection */}
+          <p className="text-center text-neutral-500 text-xs tracking-[0.3em] uppercase mb-6">Select Language</p>
           <div className="space-y-3">
             {Object.entries(languageFlags).map(([code, { name }]) => (
               <button
                 key={code}
                 onClick={() => setLang(code)}
-                className="w-full py-4 px-6 text-left transition-all duration-300 group"
-                style={{
-                  background: 'linear-gradient(180deg, rgba(92,68,16,0.8) 0%, rgba(74,58,14,0.9) 100%)',
-                  border: '2px solid #6B4E12',
-                  borderRadius: '8px',
-                  boxShadow: 'inset 0 1px 2px rgba(255,255,255,0.1), 0 2px 4px rgba(0,0,0,0.3)'
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.background = 'linear-gradient(180deg, rgba(139,105,20,0.9) 0%, rgba(107,78,18,1) 100%)';
-                  e.currentTarget.style.borderColor = '#B8860B';
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.background = 'linear-gradient(180deg, rgba(92,68,16,0.8) 0%, rgba(74,58,14,0.9) 100%)';
-                  e.currentTarget.style.borderColor = '#6B4E12';
-                }}
+                className="lang-card w-full py-4 px-6 text-left transition-all duration-300 group flex items-center justify-between"
               >
-                <span
-                  className="text-amber-200 group-hover:text-white text-sm tracking-wider transition-colors font-medium"
-                  style={{ textShadow: '1px 1px 2px rgba(0,0,0,0.5)' }}
-                >
+                <span className="text-neutral-300 group-hover:text-amber-200 text-sm tracking-wider transition-colors font-light">
                   {name}
                 </span>
+                <svg className="w-4 h-4 text-neutral-600 group-hover:text-amber-500 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 5l7 7-7 7" />
+                </svg>
               </button>
             ))}
           </div>
@@ -1153,66 +1147,81 @@ export default function CrazyHorseChatbot() {
     );
   }
 
-  // ===== WELCOME SCREEN - Start (Western Saloon Theme) =====
+  // ===== WELCOME SCREEN - Start (Modern Bar Theme) =====
   if (currentStep === 'welcome' && lang) {
     return (
-      <div className="min-h-screen saloon-bg flex flex-col items-center justify-center p-6 relative overflow-hidden">
-        {/* Lantern glows */}
-        <div className="lantern-glow" style={{ top: '5%', left: '5%' }}></div>
-        <div className="lantern-glow" style={{ top: '5%', right: '5%' }}></div>
-        <div className="lantern-glow" style={{ bottom: '30%', left: '8%' }}></div>
-        <div className="lantern-glow" style={{ bottom: '30%', right: '8%' }}></div>
+      <div className="min-h-screen bar-bg flex flex-col items-center justify-center p-6 relative overflow-hidden">
+        {/* Ambient light effects */}
+        <div className="ambient-glow ambient-glow-gold w-[500px] h-[500px]" style={{ top: '-15%', left: '50%', transform: 'translateX(-50%)' }}></div>
+        <div className="ambient-glow ambient-glow-warm w-72 h-72" style={{ bottom: '5%', left: '5%' }}></div>
+        <div className="ambient-glow ambient-glow-warm w-72 h-72" style={{ bottom: '5%', right: '5%' }}></div>
 
-        {/* Fireplace glow */}
-        <div className="fireplace-glow"></div>
+        {/* Floating particles */}
+        {[...Array(8)].map((_, i) => (
+          <div
+            key={i}
+            className="particles"
+            style={{
+              left: `${10 + i * 12}%`,
+              bottom: '0',
+              animationDelay: `${i * 1.8}s`,
+            }}
+          ></div>
+        ))}
 
-        {/* Decorative horseshoes */}
-        <div className="absolute top-[15%] left-[8%] text-4xl horseshoe transform -rotate-12 opacity-60">∩</div>
-        <div className="absolute top-[12%] right-[10%] text-3xl horseshoe transform rotate-12 opacity-50">∩</div>
+        {/* Cocktail glass decorative icon */}
+        <div className="absolute top-[8%] left-1/2 transform -translate-x-1/2 opacity-20">
+          <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="currentColor" className="text-amber-500">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={0.5} d="M8 2h8l-4 9v11m-4 0h8" />
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={0.5} d="M5 2h14l-4 9H9L5 2z" />
+          </svg>
+        </div>
 
         <div className="max-w-md w-full text-center relative z-10">
-          {/* Main Title - 3D Carved Wood Style */}
-          <div className="mb-4">
-            <h1 className="wood-title text-5xl md:text-6xl leading-tight">CRAZY</h1>
-            <h1 className="wood-title text-5xl md:text-6xl leading-tight">HORSE</h1>
+          {/* Decorative top element */}
+          <div className="bar-divider w-32 mx-auto mb-10"></div>
+
+          {/* Main Title - Elegant Style */}
+          <div className="mb-6">
+            <h1 className="bar-title-main text-5xl md:text-6xl leading-tight tracking-[0.2em]">CRAZY</h1>
+            <h1 className="bar-title-main text-5xl md:text-6xl leading-tight tracking-[0.2em] mt-1">HORSE</h1>
           </div>
 
-          {/* Horseshoe decorations around SALOON */}
-          <div className="flex items-center justify-center gap-4 mb-8">
-            <span className="text-2xl horseshoe transform rotate-90">∩</span>
-            <h2 className="wood-title text-3xl md:text-4xl">SALOON</h2>
-            <span className="text-2xl horseshoe transform -rotate-90">∩</span>
+          {/* Subtitle */}
+          <div className="flex items-center justify-center gap-6 mb-10">
+            <div className="w-12 h-px bg-gradient-to-r from-transparent to-amber-600/50"></div>
+            <p className="tagline text-sm">SALOON</p>
+            <div className="w-12 h-px bg-gradient-to-l from-transparent to-amber-600/50"></div>
           </div>
 
-          {/* Leather Banner with Tagline */}
-          <div className="leather-banner mx-auto mb-12 max-w-xs">
-            <p className="text-amber-100 text-sm md:text-base tracking-wide font-medium"
-               style={{ textShadow: '1px 1px 2px rgba(0,0,0,0.5)' }}>
-              {t.tagline}
-            </p>
-          </div>
+          {/* Tagline */}
+          <p className="text-neutral-400 text-sm md:text-base tracking-wide font-light mb-12 italic">
+            {t.tagline}
+          </p>
 
-          {/* Rope/Leather Framed Start Button */}
+          {/* Elegant Start Button */}
           <button
             onClick={startConversation}
-            className="rope-button text-amber-200 hover:text-white text-xl md:text-2xl tracking-[0.15em] transition-all duration-300 hover:scale-105 font-semibold"
-            style={{
-              fontFamily: 'Georgia, serif',
-              textShadow: '2px 2px 4px rgba(0,0,0,0.5)'
-            }}
+            className="cta-button px-12 py-4 text-sm md:text-base tracking-[0.3em] uppercase"
           >
             {t.startChat}
           </button>
 
-          {/* Wooden Sign Language Indicator */}
-          <div className="mt-12">
+          {/* Language Change Option */}
+          <div className="mt-16">
             <button
               onClick={() => setLang(null)}
-              className="wood-sign text-amber-200 hover:text-white text-sm tracking-wider transition-colors inline-block"
-              style={{ textShadow: '1px 1px 2px rgba(0,0,0,0.5)' }}
+              className="glass-button px-6 py-3 text-neutral-400 hover:text-amber-300 text-xs tracking-[0.2em] uppercase transition-colors"
             >
               {languageFlags[lang]?.name}
             </button>
+          </div>
+
+          {/* Decorative bottom element */}
+          <div className="mt-12 flex justify-center gap-2">
+            <div className="w-1 h-1 rounded-full bg-amber-600/40"></div>
+            <div className="w-1 h-1 rounded-full bg-amber-600/60"></div>
+            <div className="w-1 h-1 rounded-full bg-amber-600/40"></div>
           </div>
         </div>
       </div>
