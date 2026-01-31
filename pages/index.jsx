@@ -1118,7 +1118,7 @@ export default function CrazyHorseChatbot() {
             <div className="bar-divider w-24 mx-auto mb-8"></div>
 
             <h1 className="bar-title-main text-4xl md:text-5xl leading-tight mb-2">CRAZY HORSE</h1>
-            <p className="tagline mt-4 mb-6">BAR & LOUNGE</p>
+            <p className="tagline mt-4 mb-6">SALOON</p>
 
             {/* Decorative bottom line */}
             <div className="bar-divider w-16 mx-auto mt-6"></div>
@@ -1190,7 +1190,7 @@ export default function CrazyHorseChatbot() {
           {/* Subtitle */}
           <div className="flex items-center justify-center gap-6 mb-10">
             <div className="w-12 h-px bg-gradient-to-r from-transparent to-amber-600/50"></div>
-            <p className="tagline text-sm">BAR & LOUNGE</p>
+            <p className="tagline text-sm">SALOON</p>
             <div className="w-12 h-px bg-gradient-to-l from-transparent to-amber-600/50"></div>
           </div>
 
