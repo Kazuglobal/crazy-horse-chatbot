@@ -228,3 +228,210 @@ body {
 .lantern-glow {
   animation: lanternFlicker 3s ease-in-out infinite;
 }
+
+/* Parchment/Paper texture for chat area */
+.parchment-bg {
+  background:
+    /* Paper texture spots */
+    radial-gradient(ellipse 80px 60px at 20% 30%, rgba(160,140,100,0.15) 0%, transparent 50%),
+    radial-gradient(ellipse 60px 40px at 70% 60%, rgba(140,120,80,0.1) 0%, transparent 50%),
+    radial-gradient(ellipse 100px 80px at 50% 80%, rgba(150,130,90,0.12) 0%, transparent 50%),
+    /* Base parchment color */
+    linear-gradient(180deg, #E8DCC8 0%, #D9CDB5 30%, #C8B99A 70%, #B5A682 100%);
+  position: relative;
+}
+
+.parchment-bg::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    /* Aged paper effect */
+    repeating-linear-gradient(
+      90deg,
+      transparent 0px,
+      transparent 100px,
+      rgba(139,119,80,0.03) 100px,
+      rgba(139,119,80,0.03) 101px
+    );
+  pointer-events: none;
+}
+
+/* Wooden frame border */
+.wood-frame {
+  border: 12px solid;
+  border-image: linear-gradient(
+    180deg,
+    #5C4410 0%,
+    #7A5A15 15%,
+    #8B6914 30%,
+    #6B4E12 50%,
+    #8B6914 70%,
+    #7A5A15 85%,
+    #5C4410 100%
+  ) 1;
+  box-shadow:
+    inset 0 0 20px rgba(0,0,0,0.3),
+    0 8px 32px rgba(0,0,0,0.5),
+    0 0 0 2px #3d2a1c;
+}
+
+/* Leather button with brass studs */
+.leather-button {
+  background: linear-gradient(
+    180deg,
+    #6B5030 0%,
+    #5A4025 15%,
+    #4A3520 50%,
+    #5A4025 85%,
+    #3D2A18 100%
+  );
+  border: 3px solid #8B7355;
+  border-radius: 4px;
+  position: relative;
+  box-shadow:
+    inset 0 1px 2px rgba(255,255,255,0.1),
+    inset 0 -2px 4px rgba(0,0,0,0.3),
+    0 4px 8px rgba(0,0,0,0.4);
+  padding: 14px 20px;
+}
+
+.leather-button::before,
+.leather-button::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle at 30% 30%,
+    #D4B896 0%,
+    #B8956A 30%,
+    #8B7355 60%,
+    #6B5340 100%
+  );
+  box-shadow:
+    inset -1px -1px 2px rgba(0,0,0,0.3),
+    inset 1px 1px 1px rgba(255,255,255,0.3),
+    0 1px 2px rgba(0,0,0,0.3);
+}
+
+.leather-button::before {
+  left: 10px;
+}
+
+.leather-button::after {
+  right: 10px;
+}
+
+/* Inner button with brass frame */
+.brass-frame-button {
+  background: linear-gradient(
+    180deg,
+    #6B5030 0%,
+    #5A4025 15%,
+    #4A3520 40%,
+    #5A4025 85%,
+    #3D2A18 100%
+  );
+  border: 4px solid;
+  border-image: linear-gradient(
+    180deg,
+    #D4B896 0%,
+    #B8956A 20%,
+    #8B7355 50%,
+    #B8956A 80%,
+    #D4B896 100%
+  ) 1;
+  position: relative;
+  box-shadow:
+    inset 0 2px 4px rgba(255,255,255,0.08),
+    inset 0 -2px 4px rgba(0,0,0,0.3),
+    0 4px 8px rgba(0,0,0,0.4),
+    0 0 0 1px rgba(0,0,0,0.3);
+  padding: 12px 24px;
+}
+
+.brass-frame-button::before {
+  content: '';
+  position: absolute;
+  inset: -8px;
+  border: 3px solid;
+  border-image: linear-gradient(
+    180deg,
+    #C4A04A 0%,
+    #8B7355 30%,
+    #6B5340 50%,
+    #8B7355 70%,
+    #C4A04A 100%
+  ) 1;
+  pointer-events: none;
+}
+
+/* Corner brass studs for button frame */
+.brass-stud {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle at 30% 30%,
+    #E8D4A8 0%,
+    #C4A04A 25%,
+    #8B7355 60%,
+    #5C4410 100%
+  );
+  box-shadow:
+    inset -1px -1px 2px rgba(0,0,0,0.4),
+    inset 1px 1px 2px rgba(255,255,255,0.4),
+    0 2px 3px rgba(0,0,0,0.4);
+}
+
+.brass-stud.top-left { top: -5px; left: -5px; }
+.brass-stud.top-right { top: -5px; right: -5px; }
+.brass-stud.bottom-left { bottom: -5px; left: -5px; }
+.brass-stud.bottom-right { bottom: -5px; right: -5px; }
+
+/* Lantern image container */
+.lantern-container {
+  position: absolute;
+  width: 60px;
+}
+
+.lantern-container img {
+  width: 100%;
+  filter: drop-shadow(0 0 10px rgba(255,180,50,0.5));
+}
+
+/* Fireplace container */
+.fireplace-container {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+}
+
+/* Cowboy hat decoration */
+.cowboy-hat {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  filter: drop-shadow(2px 4px 6px rgba(0,0,0,0.5));
+}
+
+/* Chat message text on parchment */
+.parchment-text {
+  color: #3D2A1C;
+  font-family: Georgia, 'Times New Roman', serif;
+  line-height: 1.6;
+}
+
+/* Avatar border for Master Annie */
+.avatar-western-border {
+  border: 3px solid #8B6914;
+  border-radius: 50%;
+  box-shadow:
+    0 0 0 2px #5C4410,
+    0 4px 8px rgba(0,0,0,0.4);
+}
